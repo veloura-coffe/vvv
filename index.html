@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noureddine - Guide Voyage</title>
+    <style>
+        :root { --primary: #028391; --bg: #f3f4f6; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        #chat-window { width: 95%; max-width: 400px; height: 85vh; background: white; border-radius: 20px; display: flex; flex-direction: column; box-shadow: 0 10px 25px rgba(0,0,0,0.1); overflow: hidden; }
+        #header { background: var(--primary); color: white; padding: 15px; text-align: center; }
+        #messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #fafafa; }
+        .msg { max-width: 80%; padding: 10px 15px; border-radius: 15px; font-size: 14px; animation: fadeIn 0.3s; }
+        .bot { background: #e1f5fe; align-self: flex-start; color: #01579b; border-bottom-left-radius: 2px; }
+        .user { background: var(--primary); color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
+        #input-area { padding: 15px; border-top: 1px solid #eee; display: flex; gap: 5px; background: white; }
+        input { flex: 1; border: 1px solid #ddd; padding: 12px; border-radius: 25px; outline: none; }
+        button { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: bold; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+<div id="chat-window">
+    <div id="header">
+        <strong>🌍 Noureddine</strong><br><small>Expert Voyage en ligne</small>
+    </div>
+    <div id="messages">
+        <div class="msg bot">Bonjour ! Je suis <b>Noureddine</b>. Je connais toutes les destinations du monde. Posez-moi une question sur un pays ou une ville !</div>
+    </div>
+    <div id="input-area">
+        <input type="text" id="userInput" placeholder="Où voulez-vous aller ?">
+        <button onclick="ask()">Envoyer</button>
+    </div>
+</div>
+
+<script>
+    // Liste de connaissances de Noureddine (pour éviter les erreurs de serveur)
+    const connaissances = {
+        "maroc": "Le Maroc est magnifique ! Ne ratez pas Marrakech et les dunes de Merzouga. C'est ma terre préférée.",
+        "france": "La France est célèbre pour Paris et sa gastronomie. Je vous conseille aussi le Mont Saint-Michel.",
+        "espagne": "L'Espagne est parfaite pour le soleil ! Barcelone et Madrid sont des villes incroyables.",
+        "bagage": "Pour vos bagages, n'oubliez pas vos papiers, un chargeur universel et des vêtements adaptés au climat !",
+        "prix": "Les prix varient selon la saison. Je vous conseille de réserver 3 mois à l'avance.",
+        "nourriture": "Goûter la cuisine locale est le meilleur moyen de voyager ! Bon appétit !"
+    };
+
+    function ask() {
+        const input = document.getElementById('userInput');
+        const text = input.value.toLowerCase().trim();
+        if (!text) return;
+
+        addMessage(input.value, 'user');
+        input.value = '';
+
+        // Simulation de réflexion de Noureddine
+        setTimeout(() => {
+            let reponse = "C'est une excellente question sur le voyage ! En tant que Noureddine, je vous suggère de vérifier les visas et de profiter de chaque instant là-bas.";
+            
+            // Chercher si on a une réponse précise
+            for (let mot in connaissances) {
+                if (text.includes(mot)) {
+                    reponse = connaissances[mot];
+                }
+            }
+            
+            addMessage(reponse, 'bot');
+        }, 600);
+    }
+
+    function addMessage(txt, side) {
+        const messagesDiv = document.getElementById('messages');
+        const d = document.createElement('div');
+        d.className = `msg ${side}`;
+        d.innerText = txt;
+        messagesDiv.appendChild(d);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+</script>
+
+</body>
+</html>
